@@ -33,7 +33,7 @@ const birdie ={
                 this.fallSpeed += this.game.gravity;
             }
             this.y += this.fallSpeed;
-            this.checkCollisionWithGround();
+            this.checkCollisionWithTubes();
         }
 
         this.render();
@@ -74,6 +74,17 @@ const birdie ={
             /*qd loiseau tombe sa vitesse de chute est a maxfallspeed donc inverser*/
 
         }
+    },
+
+    checkCollisionWithTubes(){
+        this.game.tubesPairs.forEach(tubePair=>{
+            if (this.x + this.width / 2 > tubePair.x && this.x -this.width/ 2< tubePair.x + tubePair.width){
+                if ((this.y - this.height/2) < tubePair.yTop + tubePair.height
+                    || (this.y+ this.height/2 ) > tubePair.yBottom){
+                    this.game.cancelAnimation();
+                }
+            }
+        })
     },
 
 

@@ -17,7 +17,7 @@ const game = {
   frameCounter: 0,
   frameInterval: 80,
   maxTubesPairs : 3,
-
+  requestId : 0,
 
 
   init () {
@@ -37,7 +37,7 @@ const game = {
   },
 
   animate () {
-    window.requestAnimationFrame(() => {
+    this.requestId = window.requestAnimationFrame(() => {
       this.animate();
     })
 
@@ -71,6 +71,10 @@ const game = {
         coordinates.dw,
         coordinates.dh,
         );
+  },
+
+  cancelAnimation(){
+    window.cancelAnimationFrame(this.requestId);
   },
 }
 
