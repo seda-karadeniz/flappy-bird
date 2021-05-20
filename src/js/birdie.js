@@ -63,10 +63,14 @@ const birdie ={
         this.game.context.restore();
     },
 
+    goUp(){
+        this.fallSpeed = -this.maxFallSpeed;
+    },
+
     checkCollisionWithGround(){
         if (this.y + this.height / 2 > ground.frame.dy){
             this.y = ground.frame.dy - this.height / 2;
-            this.fallSpeed = -this.maxFallSpeed;
+            this.goUp();
             /*qd loiseau tombe sa vitesse de chute est a maxfallspeed donc inverser*/
 
         }
