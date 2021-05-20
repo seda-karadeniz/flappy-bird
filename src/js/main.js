@@ -1,4 +1,5 @@
 import background from "./background";
+import ground from "./ground";
 
 const game = {
   canvas: document.getElementById('game'),
@@ -12,6 +13,7 @@ const game = {
     this.sprite.src = this.spriteSheetSrc;
     this.sprite.addEventListener('load', ()=>{
       background.init(this);
+      ground.init(this);
       this.animate();
     })
 
@@ -25,6 +27,7 @@ const game = {
 
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     background.update();
+    ground.update();
   },
 
   renderSpriteFrame(coordinates){
