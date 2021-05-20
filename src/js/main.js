@@ -1,7 +1,9 @@
 import background from "./background";
 import ground from "./ground";
+import TubesPair from "./TubesPair";
 import birdie from "./birdie";
 import gameController from "./gameController";
+
 
 const game = {
   canvas: document.getElementById('game'),
@@ -10,6 +12,12 @@ const game = {
   sprite: new Image(),
   gravity: 0.9,
   hasStarted : false,
+  tubesPairs : [],
+  /*au depart le tableau est vide,  dans un comteur au moment où on arrive a un certain moment */
+  frameCounter: 0,
+  frameInterval: 80,
+  maxTubesPairs : 3,
+
 
 
   init () {
@@ -18,6 +26,7 @@ const game = {
     this.sprite.addEventListener('load', ()=>{
       gameController.init(this);
       background.init(this);
+
       ground.init(this);
       birdie.init(this);
 
@@ -34,6 +43,18 @@ const game = {
 
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     background.update();
+    if (this.hasStarted){
+      if (this.frameCounter++ > this.frameInterval){
+        if (this.tubesPairs.length >= this.maxTubesPairs){
+          this.tubesPairs.splice(0,1);
+        }
+        this.tubesPairs.push(new TubesPair(this));
+        this.frameCounter = 0;
+      }
+      this.tubesPairs.forEach(tubePair =>{
+        tubePair.update();
+      })
+    }
     ground.update();
     birdie.update();
   },
