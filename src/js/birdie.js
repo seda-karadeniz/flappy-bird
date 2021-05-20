@@ -7,7 +7,7 @@ const birdie ={
         {sx:62,sy:982},
         {sx:118,sy:982}
     ],
-    maxAnimationStep: 2,
+    maxAnimationStep: 0,
     animationStep:0,
     counterIntervall: 0,
     maxIntervall: 5,
@@ -19,17 +19,20 @@ const birdie ={
     maxFallSpeed : 7,
 
 
-    update(){
-
-        this.render();
-
-    },
-
     init(game){
         this.game = game;
         this.x = this.width /2 + 3;
         this.y = (game.canvas.height -ground.frame.sh) / 2;
+        this.maxAnimationStep = this.frames.length-1;
 
+    },
+
+    update(){
+        if (this.fallSpeed < this.maxFallSpeed){
+            this.fallSpeed += this.game.gravity;
+        }
+        this.y += this.fallSpeed;
+        this.render();
     },
 
     render(){

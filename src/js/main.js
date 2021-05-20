@@ -7,6 +7,7 @@ const game = {
   context: null,
   spriteSheetSrc: './resources/sprite.png',
   sprite: new Image(),
+  gravity: 0.9,
 
 
   init () {
