@@ -1,6 +1,7 @@
 import background from "./background";
 import ground from "./ground";
 import birdie from "./birdie";
+import gameController from "./gameController";
 
 const game = {
   canvas: document.getElementById('game'),
@@ -8,12 +9,14 @@ const game = {
   spriteSheetSrc: './resources/sprite.png',
   sprite: new Image(),
   gravity: 0.9,
+  hasStarted : false,
 
 
   init () {
     this.context = this.canvas.getContext('2d');
     this.sprite.src = this.spriteSheetSrc;
     this.sprite.addEventListener('load', ()=>{
+      gameController.init(this);
       background.init(this);
       ground.init(this);
       birdie.init(this);

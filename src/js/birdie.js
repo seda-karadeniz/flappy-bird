@@ -28,11 +28,14 @@ const birdie ={
     },
 
     update(){
-        if (this.fallSpeed < this.maxFallSpeed){
-            this.fallSpeed += this.game.gravity;
+        if (this.game.hasStarted){
+            if (this.fallSpeed < this.maxFallSpeed){
+                this.fallSpeed += this.game.gravity;
+            }
+            this.y += this.fallSpeed;
+            this.checkCollisionWithGround();
         }
-        this.y += this.fallSpeed;
-        this.checkCollisionWithGround();
+
         this.render();
     },
 
@@ -45,7 +48,7 @@ const birdie ={
         }
         this.game.context.save()
         this.game.context.translate(this.x,this.y);
-        this.game.context.rotate(0);
+        this.game.context.rotate(this.fallSpeed / this.maxFallSpeed);
         this.game.renderSpriteFrame({
             sx: this.frames[this.animationStep].sx,
             sy: this.frames[this.animationStep].sy,
