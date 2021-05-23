@@ -15,28 +15,28 @@ const game = {
   tubesPairs : [],
   /*au depart le tableau est vide,  dans un comteur au moment où on arrive a un certain moment */
   frameCounter: 0,
-  frameInterval: 80,
+  frameInterval: 90,
   maxTubesPairs : 3,
   requestId : 0,
 
 
   init () {
     this.context = this.canvas.getContext('2d');
-    this.sprite.src = this.spriteSheetSrc;
     this.sprite.addEventListener('load', ()=>{
       gameController.init(this);
       background.init(this);
-
       ground.init(this);
       birdie.init(this);
 
       this.animate();
-    })
 
+    });
+    this.sprite.src = this.spriteSheetSrc;
 
   },
 
   animate () {
+
     this.requestId = window.requestAnimationFrame(() => {
       this.animate();
     })
@@ -75,6 +75,24 @@ const game = {
 
   cancelAnimation(){
     window.cancelAnimationFrame(this.requestId);
+  },
+
+  restart(){
+
+    this.hasStarted = false;
+
+    this.tubesPairs = [];
+    this.frameCounter = 0;
+    this.frameInterval = 90;
+    this.maxTubesPairs = 3;
+    this.requestId = 0;
+
+    gameController.init(this);
+    background.init(this);
+    ground.init(this);
+    birdie.init(this);
+
+    this.animate();
   },
 }
 

@@ -3,20 +3,26 @@ import ground from "./ground";
 const birdie ={
     game: null,
     frames: [
-        {sx:6, sy:982},
-        {sx:62,sy:982},
-        {sx:118,sy:982}
+        {sx:7, sy:982},
+        {sx:63,sy:982},
+        {sx:119,sy:982}
     ],
     maxAnimationStep: 0,
     animationStep:0,
     counterIntervall: 0,
     maxIntervall: 5,
-    width:34,
-    height: 24,
+    width:32,
+    height: 23,
     x:0,
     y:0,
     fallSpeed:0,
     maxFallSpeed : 7,
+    chanceCounter : 2,
+    loseParagraph : document.createElement('p'),
+    loseBtnRestart : document.createElement('input'),
+    isButtonAlreadySet : false,
+
+
 
 
     init(game){
@@ -24,8 +30,11 @@ const birdie ={
         this.x = this.width /2 + 3;
         this.y = (game.canvas.height -ground.frame.sh) / 2;
         this.maxAnimationStep = this.frames.length-1;
+        this.fallSpeed = 0;
+        this.maxFallSpeed = 7;
 
-    },
+
+        },
 
     update(){
         if (this.game.hasStarted){
@@ -34,6 +43,7 @@ const birdie ={
             }
             this.y += this.fallSpeed;
             this.checkCollisionWithTubes();
+            this.checkCollisionWithGround();
         }
 
         this.render();
@@ -78,13 +88,42 @@ const birdie ={
 
     checkCollisionWithTubes(){
         this.game.tubesPairs.forEach(tubePair=>{
-            if (this.x + this.width / 2 > tubePair.x && this.x -this.width/ 2< tubePair.x + tubePair.width){
+            if (this.x + this.width / 2 > tubePair.x && this.x -this.width/ 2 < tubePair.x + tubePair.width){
                 if ((this.y - this.height/2) < tubePair.yTop + tubePair.height
                     || (this.y+ this.height/2 ) > tubePair.yBottom){
                     this.game.cancelAnimation();
+                    this.chanceCounter--;
+                    if (this.chanceCounter > 0){
+                        this.game.restart();
+                    }
+                    else{
+                       this.btn();
+
+                    }
+
                 }
             }
         })
+    },
+
+    btn(){
+
+        this.loseParagraph.textContent = 'dommage vous avez perdue toutes vos chance';
+        this.loseBtnRestart.setAttribute('type', 'submit');
+        this.loseBtnRestart.setAttribute('value', 'Cliquez ici pour recommencer');
+
+        if (!this.isButtonAlreadySet){
+            this.isButtonAlreadySet = true;
+            this.loseBtnRestart.addEventListener('click',()=>{
+                this.chanceCounter = 1;
+                this.game.restart();
+            });
+        }
+
+        document.body.insertAdjacentElement("afterbegin", this.loseBtnRestart);
+        document.body.insertAdjacentElement("afterbegin", this.loseParagraph);
+
+
     },
 
 
