@@ -93,13 +93,16 @@ const birdie ={
                     || (this.y+ this.height/2 ) > tubePair.yBottom){
                     this.game.cancelAnimation();
                     this.chanceCounter--;
-                    if (this.chanceCounter > 0){
+                     if (this.chanceCounter > 0){
                         this.game.restart();
+                        document.querySelector('#chance').insertAdjacentHTML('afterbegin','<p>nombre de chance restante : </p>'+ this.chanceCounter);
+
                     }
                     else{
                        this.btn();
+                       
 
-                    }
+                    } 
 
                 }
             }
@@ -117,6 +120,7 @@ const birdie ={
             this.loseBtnRestart.addEventListener('click',()=>{
                 this.chanceCounter = 1;
                 this.game.restart();
+                
             });
         }
 

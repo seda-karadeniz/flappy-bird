@@ -93,6 +93,7 @@ const game = {
     birdie.init(this);
 
     this.animate();
+    
   },
 }
 
